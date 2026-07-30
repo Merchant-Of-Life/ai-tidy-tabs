@@ -28,28 +28,7 @@
 * **🖱️ Context Menu Hooks:** Right-click any tab to quickly add its domain to your custom rules list.
 * **🧩 Modular Architecture:** Built exclusively for the [Sine Mod Loader](https://github.com/CosmoCreeper/Sine) using ES Modules.
 
----
-
-## 🚀 Installation
-
-Because this mod hooks deeply into the browser UI, it requires the **Sine Mod Loader** (which comes pre-installed in modern Zen Browser builds).
-
-### Step 1: Allow Local Scripts in Sine
-By default, Sine blocks JavaScript from mods that aren't downloaded from the official store. Since you are installing this from GitHub, you must allow it:
-1. Type `about:config` in your URL bar and press Enter.
-2. Accept the risk warning.
-3. Search for `sine.allow-unsafe-js`.
-4. Double-click it to set it to **`true`**.
-
-### Step 2: Install the Mod
-1. Open Zen Browser Settings and navigate to the **Mods** section.
-2. Click **Open Mods Directory**. (This opens `[Profile Folder]/chrome/sine-mods/`).
-3. Inside `sine-mods`, create a new folder named exactly **`ai-folder-sorter`**.
-4. Download or clone this repository and place **all files** inside that new folder.
-   > *Note: Make sure the `modules` folder is strictly lowercase!*
-5. **Restart Zen Browser**. 
-6. Go back to the **Mods** section in settings, find **AI Folder Sorter**, and enable it!
-
+  
 ---
 
 ## ⚙️ Configuration
