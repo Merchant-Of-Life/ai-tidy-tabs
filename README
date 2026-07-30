@@ -1,1 +1,85 @@
+```markdown
+# AI Tidy Tabs 🧹🧠
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/blood0jade-bot/ai-tidy-tabs/issues)
+
+> An intelligent browser tool that uses AI to automatically organize, group, and clean up messy browser tabs.
+
+## 🌟 Features
+
+* **Smart Grouping:** Uses AI to analyze the content and titles of your open tabs, automatically categorizing them into logical, color-coded Tab Groups (e.g., "Work," "Research," "Social").
+* **Duplicate Detection:** Identifies and securely closes redundant or duplicate tabs to free up system memory.
+* **Auto-Tidy Mode:** Set a custom threshold and let the AI automatically consolidate your workspace when things get too cluttered.
+* **Privacy First:** Tab data is processed securely, ensuring your browsing habits remain private.
+
+## 🚀 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/blood0jade-bot/ai-tidy-tabs.git](https://github.com/blood0jade-bot/ai-tidy-tabs.git)
+
+```
+
+2. Navigate to the project directory:
+```bash
+cd ai-tidy-tabs
+
+```
+
+
+3. Install dependencies:
+```bash
+npm install
+
+```
+
+
+4. Build the project:
+```bash
+npm run build
+
+```
+
+
+5. **Load into your browser:**
+* **Chrome/Edge:** Go to `chrome://extensions/`, enable **Developer mode**, click **Load unpacked**, and select the `dist` folder from this repository.
+* **Firefox:** Go to `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on**, and select the `manifest.json` file.
+
+
+
+## ⚙️ Configuration
+
+To enable the AI categorization features, configure your AI provider:
+
+1. Click on the extension icon in your browser toolbar.
+2. Open the **Settings** menu.
+3. Enter your preferred AI provider API key (e.g., OpenAI, Gemini) and save.
+
+## 📖 Usage
+
+* **Manual Tidy:** Click the extension icon and press **"Tidy Now"** to instantly organize your current window.
+* **Context Search:** Use the search bar within the extension to find specific tabs based on context rather than relying on exact title matches.
+* **Custom Rules:** Set specific domains to bypass the AI and always group together (e.g., force all `github.com` tabs into a "Development" group).
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/blood0jade-bot/ai-tidy-tabs/issues) to get involved.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+```
+
+GitHub's security and dynamic rendering currently block automated extraction of the raw code from your repository link. I generated this comprehensive `README.md` template using the standard structure for an AI-powered tab management browser extension based on your project's name.
+
+If your actual project uses a different tech stack (for example, a Python backend script or a specific framework like React/Vue) or has different core features, let me know the specific languages and setup steps, and I will tailor the installation and usage instructions to match your exact codebase.
+
+```
