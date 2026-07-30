@@ -1,0 +1,288 @@
+<div align="center">
+
+# ✨ AI Folder Sorter
+
+### Sort your open tabs into smart folders with one click — powered by AI.
+
+A [Zen Browser](https://zen-browser.app) mod that automatically categorizes your tabs into color-coded tab groups using AI. Works with Gemini, Ollama, or any OpenAI-compatible endpoint.
+
+[![Zen Browser](https://img.shields.io/badge/Zen%20Browser-128%2B-blueviolet?style=for-the-badge&logo=firefox)](https://zen-browser.app)
+[![Sine](https://img.shields.io/badge/Sine-Mod%20Loader-orange?style=for-the-badge)](https://github.com/CosmoCreeper/Sine)
+[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen?style=for-the-badge)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
+
+</div>
+
+---
+
+## ✨ Features
+
+- **🤖 Multi-provider AI** — Gemini, Ollama (local), or any OpenAI-compatible endpoint (Groq, OpenAI, LM Studio, vLLM)
+- **📐 Rules system** — Pin domains to folders (`github.com → 💻 Dev`). Rules run before AI, saving tokens and giving you deterministic control
+- **🖱️ Right-click menu** — Right-click any tab → "Always sort `[host]` into..." to add a rule instantly
+- **🎨 Smart colors** — AI-suggested colors validated against Zen's palette
+- **🔀 Fuzzy matching** — Case/whitespace-insensitive folder matching prevents duplicates
+- **⏱️ Fetch timeout** — 60-second timeout prevents stuck buttons if AI hangs
+- **📦 Auto-batching** — Large tab sets (>100) split into batches for token limits
+- **🆘 Fallback button** — Draggable floating button appears if sidebar injection fails
+- **⌨️ Keyboard shortcut** — `Ctrl+Shift+S` / `Cmd+Shift+S`
+- **↩️ Undo** — Notifications include Undo to revert the last sort
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- [Zen Browser](https://zen-browser.app) (Firefox 128+ fork)
+- [Sine mod loader](https://github.com/CosmoCreeper/Sine) installed in Zen
+
+### Install
+
+1. Download the latest release from [Releases](../../releases)
+2. Extract to your Sine mods folder:
+   - **Windows**: `%APPDATA%\zen\Sine\mods\ai-folder-sorter\`
+   - **macOS**: `~/Library/Application Support/Zen/Sine/mods/ai-folder-sorter/`
+   - **Linux**: `~/.zen/Sine/mods/ai-folder-sorter/`
+3. The folder should look like:
+   ```
+   ai-folder-sorter/
+   ├── ai-folder-sorter.uc.mjs    ← MUST be .uc.mjs (not .uc.js)
+   ├── modules/
+   │   ├── config.mjs
+   │   ├── tabs.mjs
+   │   ├── rules.mjs
+   │   ├── ai.mjs
+   │   ├── groups.mjs
+   │   ├── notify.mjs
+   │   ├── browser-ui.mjs
+   │   ├── browser-hooks.mjs
+   │   └── click-handler.mjs
+   ├── userChrome.css
+   ├── theme.json
+   └── preferences.json
+   ```
+
+   > ⚠️ **Critical:** The script file MUST have the `.uc.mjs` extension. Sine's loader only processes `.uc.mjs` files — a `.uc.js` file will be silently ignored.
+
+4. Restart Zen Browser
+
+### Verify it's working
+
+Open the Browser Console (`Ctrl+Shift+J` / `Cmd+Shift+J`) and look for:
+
+```
+[AI-FolderSorter] Script loaded (v1.0.0). Ready to initialize.
+[AI-FolderSorter] ✅ [AI-FolderSorter] initialized successfully! (v1.0.0)
+```
+
+You should see a ✨ wand icon in your sidebar separator. Click it to sort your tabs!
+
+---
+
+## 🚀 Quick Start
+
+1. **Configure your AI provider** — Settings → AI Folder Sorter:
+   - **Provider**: `custom` (Groq) / `gemini` / `ollama`
+   - **API Key**: Your key (Groq `gsk_...`, Gemini `AIza...`)
+   - **Model**: e.g. `llama-3.3-70b-versatile` (Groq) or `gemini-2.5-flash` (Gemini)
+
+2. **Click the ✨ wand button** in your sidebar
+
+3. **Watch your tabs get sorted!**
+   ```
+   ✨ Sorted 24 tabs into 5 folder(s)! (8 via rules, 16 via AI)
+   ```
+
+---
+
+## 🤖 AI Providers
+
+### Groq (recommended — fast & free)
+
+1. Get a free API key at [console.groq.com](https://console.groq.com)
+2. Provider = `custom` · API Key = `gsk_...` · Model = `llama-3.3-70b-versatile`
+
+### Google Gemini
+
+1. Get an API key at [aistudio.google.com](https://aistudio.google.com)
+2. Provider = `gemini` · API Key = `AIza...` · Model = `gemini-2.5-flash`
+
+### Local Ollama (no cloud, no API key)
+
+1. Install [Ollama](https://ollama.com) → `ollama pull llama3.1:8b`
+2. Provider = `ollama` · Model = `llama3.1:8b`
+
+### Any OpenAI-compatible endpoint
+
+Works with LM Studio, vLLM, text-generation-webui, OpenAI itself, etc.
+- Provider = `custom` · Endpoint = your URL · Model = your model name
+
+---
+
+## 📐 Rules System
+
+Rules pin specific domains to specific folders, bypassing the AI entirely. Great for sites you visit frequently.
+
+### Add a rule
+
+**Right-click any tab** → "Always sort `[hostname]` into..." → pick a folder (or create a new one).
+
+Or edit the pref directly in `about:config` → `zen.ai-folder-sorter.rules-json`:
+
+```json
+[
+  {"domain": "github.com", "folder": "💻 Dev", "color": "blue"},
+  {"domain": "amazon.com", "folder": "🛒 Shopping", "color": "pink"},
+  {"domain": "reddit.com", "folder": "📱 Social", "color": "purple"}
+]
+```
+
+### How matching works
+
+- Rules match against the tab's hostname
+- Parent-domain matching: a rule for `github.com` also matches `docs.github.com`, `api.github.com`, etc.
+- More specific rules take priority
+
+### Rules vs AI
+
+1. **Rules phase** — matched tabs go straight to their folder (no AI call)
+2. **AI phase** — only unmatched tabs are sent to the AI
+
+If all tabs match rules, the AI isn't called at all.
+
+---
+
+## ⚙️ Configuration
+
+Settings are in Zen → Settings → AI Folder Sorter.
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| AI Provider | `custom`, `gemini`, or `ollama` | `custom` |
+| API Key | Your API key | _(empty)_ |
+| Model Name | Model to use | `llama-3.3-70b-versatile` |
+| Custom Endpoint | OpenAI-compatible URL | `https://api.groq.com/openai/v1/chat/completions` |
+| Enable AI Emojis | Prepend emojis to folder names | `true` |
+| Ollama Endpoint | Local Ollama URL | `http://localhost:11434/api/chat` |
+| Ollama Model | Local model name | `llama3.1:8b` |
+
+---
+
+## 🏗️ Architecture
+
+```
+ai-folder-sorter.uc.mjs          Entry point (~145 lines)
+├── modules/
+│   ├── config.mjs               Constants, CONFIG, log helper
+│   ├── tabs.mjs                 Tab extraction, DOM cache
+│   ├── rules.mjs                Domain→folder rules
+│   ├── ai.mjs                   Prompt, request, parsing
+│   ├── groups.mjs               Folder creation strategies
+│   ├── notify.mjs               Notifications + toast fallback
+│   ├── browser-ui.mjs           Button injection, workspace hooks
+│   ├── browser-hooks.mjs        Right-click context menu
+│   └── click-handler.mjs        Main sort pipeline
+├── userChrome.css               Button styles + animations
+├── theme.json                   Sine mod metadata
+└── preferences.json             Settings panel definition
+```
+
+Each module has a single responsibility. The entry point is a thin orchestrator that imports everything and wires up initialization.
+
+---
+
+## 🔧 Troubleshooting
+
+### The button doesn't appear
+
+1. **Open the Browser Console** (`Ctrl+Shift+J` / `Cmd+Shift+J`)
+2. **Search for `[AI-FolderSorter]`**
+
+**If you see ZERO log entries** → the script isn't loading. The file must be named `.uc.mjs`, not `.uc.js`. Sine only loads `.uc.mjs` files.
+
+**If you see logs but no button** → check the readiness line:
+```
+[AI-FolderSorter] Readiness: gBrowser=true cmd=true sep=false periph=true ws=true
+```
+- `gBrowser=false` → wait a few seconds for Zen to finish loading
+- `sep=false` → button will fall back to `#tabbrowser-arrowscrollbox-periphery` (still works)
+- `ws=false` → button appears but won't auto-reinject on workspace switch
+
+**If sidebar injection completely fails** → a floating purple ✨ button appears in the top-right corner after 8 seconds. Use it to trigger sorts while you debug.
+
+To hide the floating button: set `zen.ai-folder-sorter.hide-fallback` to `true` in `about:config` and restart.
+
+### Sort fails with "AI returned invalid JSON"
+
+- Try a more capable model (`llama-3.3-70b-versatile` instead of `llama3.1:8b`)
+- Reduce the number of open tabs
+- Check your API key and endpoint
+
+### Sort is slow
+
+- **Ollama**: first sort after launch takes a few seconds (model loads into VRAM). Subsequent sorts are fast.
+- **Cloud provider**: check your internet connection
+- **100+ tabs**: automatically split into batches — each batch is a separate API call
+
+### Tabs go to the wrong folder
+
+- **Add a rule** for the site (right-click → "Always sort into...")
+- **Try a different model** — `llama-3.3-70b-versatile` and `gemini-2.5-pro` are most accurate
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome!
+
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/YOUR-USERNAME/ai-tidy-tabs.git`
+3. Make changes in the appropriate module (see [Architecture](#architecture))
+4. Test in Zen Browser (copy the folder to your Sine mods directory)
+5. Submit a pull request
+
+### Module responsibilities
+
+| Module | Responsibility |
+|--------|----------------|
+| `config.mjs` | Constants only — no logic, no side effects |
+| `tabs.mjs` | Reading tab data from gBrowser |
+| `rules.mjs` | Domain→folder rule matching |
+| `ai.mjs` | AI API communication |
+| `groups.mjs` | Tab group creation and manipulation |
+| `notify.mjs` | User notifications |
+| `browser-ui.mjs` | DOM injection (buttons, commands) |
+| `browser-hooks.mjs` | Context menu integration |
+| `click-handler.mjs` | Pipeline orchestration |
+
+---
+
+## 📝 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+- [Zen Browser](https://zen-browser.app) — the Firefox fork this mod targets
+- [Sine](https://github.com/CosmoCreeper/Sine) — the mod loader
+- [Zen-Tab-Wand](https://github.com/flantig/Zen-Tab-Wand) — reference implementation for the XUL injection pattern
+- [Lucide](https://lucide.dev) — the wand-sparkles icon
+
+---
+
+<div align="center">
+
+**Made with ✨ for Zen Browser users who have too many tabs open.**
+
+[Report a bug](../../issues) · [Request a feature](../../issues) · [Pull requests welcome](../../pulls)
+
+</div>
