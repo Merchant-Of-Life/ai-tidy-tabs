@@ -1,0 +1,66 @@
+[
+  {
+    "type": "separator",
+    "label": "AI Provider"
+  },
+  {
+    "type": "dropdown",
+    "label": "AI Provider — choose which AI service to use for categorizing tabs",
+    "property": "zen.ai-folder-sorter.provider",
+    "defaultValue": "custom",
+    "options": [
+      { "label": "Custom (Groq/OpenAI)", "value": "custom" },
+      { "label": "Gemini", "value": "gemini" },
+      { "label": "Ollama", "value": "ollama" }
+    ]
+  },
+  {
+    "type": "string",
+    "label": "API Key — your Groq (gsk_...) or Gemini (AIza...) key. Leave empty for local Ollama.",
+    "property": "zen.ai-folder-sorter.api_key",
+    "defaultValue": "",
+    "placeholder": "gsk_... or AIza..."
+  },
+  {
+    "type": "string",
+    "label": "Model Name — the model identifier your provider expects",
+    "property": "zen.ai-folder-sorter.model",
+    "defaultValue": "llama-3.3-70b-versatile",
+    "placeholder": "llama-3.3-70b-versatile"
+  },
+  {
+    "type": "string",
+    "label": "Custom API Endpoint — OpenAI-compatible chat/completions URL",
+    "property": "zen.ai-folder-sorter.endpoint",
+    "defaultValue": "https://api.groq.com/openai/v1/chat/completions",
+    "placeholder": "https://api.groq.com/openai/v1/chat/completions"
+  },
+  {
+    "type": "separator",
+    "label": "General"
+  },
+  {
+    "type": "checkbox",
+    "label": "Enable AI Emojis — prepend emojis to new folder names",
+    "property": "zen.ai-folder-sorter.enable_icons",
+    "defaultValue": true
+  },
+  {
+    "type": "separator",
+    "label": "Ollama (Local)"
+  },
+  {
+    "type": "string",
+    "label": "Ollama Endpoint — your local Ollama server URL",
+    "property": "zen.ai-folder-sorter.ollama_endpoint",
+    "defaultValue": "http://localhost:11434/api/chat",
+    "placeholder": "http://localhost:11434/api/chat"
+  },
+  {
+    "type": "string",
+    "label": "Ollama Model — the local model to use",
+    "property": "zen.ai-folder-sorter.ollama_model",
+    "defaultValue": "llama3.1:8b",
+    "placeholder": "llama3.1:8b"
+  }
+]
