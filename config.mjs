@@ -3,7 +3,7 @@
 // Every other module imports from here.
 
 export const LOG = "[AI-FolderSorter]";
-export const BUILD_VERSION = "1.5.0";
+export const BUILD_VERSION = "1.0.0";
 
 export const CONFIG = {
   // ── AI Provider Settings ───────────────────────────────────────

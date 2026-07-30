@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           AI Folder Sorter for Zen Browser
 // @description    Uses AI to automatically sort open tabs into Zen Browser Folders
-// @version        1.5.0
+// @version        1.0.0
 // @author         thy-fool
 // @compatibility  Zen Browser (Firefox 128+ fork)
 // @loadOrder      5

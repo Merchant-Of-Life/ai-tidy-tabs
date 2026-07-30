@@ -11,7 +11,7 @@
     },
     "homepage": "https://github.com/blood0jade-bot/ai-tidy-tabs",
     "author": "thy-fool",
-    "version": "1.5.0",
+    "version": "1.0.0",
     "style": {
         "chrome": "userChrome.css"
     },
