@@ -1,0 +1,30 @@
+{
+    "id": "ai-folder-sorter",
+    "name": "AI Folder Sorter",
+    "description": "Uses AI (Gemini, Ollama, or any OpenAI-compatible API) to automatically sort your open tabs into logical tab groups/folders. Includes domain rules and a right-click 'Add to Rule' context menu.",
+    "scripts": {
+        "ai-folder-sorter.uc.mjs": {
+            "include": [
+                "chrome://browser/content/browser.xhtml"
+            ]
+        }
+    },
+    "homepage": "https://github.com/blood0jade-bot/ai-tidy-tabs",
+    "author": "thy-fool",
+    "version": "1.5.0",
+    "style": {
+        "chrome": "userChrome.css"
+    },
+    "preferences": "preferences.json",
+    "supportsUnload": false,
+    "readme": "https://raw.githubusercontent.com/blood0jade-bot/ai-tidy-tabs/main/README.md",
+    "ai": "yes",
+    "tags": [
+        "Zen Browser",
+        "Tab Groups",
+        "AI",
+        "Productivity",
+        "Ollama"
+    ],
+    "fork": ["zen"]
+}
