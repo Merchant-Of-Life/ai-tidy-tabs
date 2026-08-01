@@ -23,6 +23,7 @@
   justify-content: center !important;
   position: relative !important;
   z-index: 10 !important;
+  overflow: visible !important;
 }
 
 #ai-folder-sorter-btn:hover {
@@ -36,23 +37,60 @@
   transition: transform 80ms ease !important;
 }
 
-#ai-folder-sorter-btn svg {
+#ai-folder-sorter-btn svg,
+#ai-folder-sorter-btn image,
+#ai-folder-sorter-btn .toolbarbutton-icon {
   width: 14px !important;
   height: 14px !important;
   fill: none !important;
   stroke: currentColor !important;
   pointer-events: none !important;
   transform-origin: 22% 78% !important;
-  transition: transform 150ms cubic-bezier(0.2, 0, 0, 1) !important;
+  /* Add filter to the transition so the glow fades smoothly */
+  transition: transform 150ms cubic-bezier(0.2, 0, 0, 1), filter 200ms ease-in-out !important;
 }
 
-#ai-folder-sorter-btn:hover svg {
+/* Ensure the button itself also transitions smoothly if the filter is applied to it */
+#ai-folder-sorter-btn {
+  transition: filter 200ms ease-in-out !important;
+}
+
+/* Apply Zen's primary color with a robust fallback as a drop-shadow glow */
+#ai-folder-sorter-btn:hover,
+#ai-folder-sorter-btn:hover svg,
+#ai-folder-sorter-btn:hover image,
+#ai-folder-sorter-btn:hover .toolbarbutton-icon {
+  filter: drop-shadow(0 0 4px var(--zen-primary-color, rgba(255, 255, 255, 0.8))) !important;
+}
+
+/* Keep the rotation exclusively on the inner icons so the entire button hitbox doesn't rotate */
+#ai-folder-sorter-btn:hover svg,
+#ai-folder-sorter-btn:hover image,
+#ai-folder-sorter-btn:hover .toolbarbutton-icon {
   transform: rotate(-4deg) !important;
+}
+
+/* Intensify the glow when clicked */
+#ai-folder-sorter-btn:active,
+#ai-folder-sorter-btn:active svg,
+#ai-folder-sorter-btn:active image,
+#ai-folder-sorter-btn:active .toolbarbutton-icon {
+  filter: drop-shadow(0 0 8px var(--zen-primary-color, rgba(255, 255, 255, 0.8))) !important;
+}
+
+@keyframes cat-backflip {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
 }
 
 #ai-folder-sorter-btn.processing {
   pointer-events: none !important;
-  opacity: 0.6 !important;
+  opacity: 0.8 !important;
+}
+
+#ai-folder-sorter-btn.processing svg {
+  animation: cat-backflip 0.6s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  transform-origin: center center !important; /* Override the 22% 78% origin so it spins perfectly */
 }
 
 #ai-folder-sorter-btn:focus-visible {
@@ -127,4 +165,57 @@ tab-group.ai-sorter-highlight::before {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* =========================================================
+   AI-Tidy-Tabs: SVG Wave Animation Core
+   ========================================================= */
+
+/* Ensure the SVG scales and transitions smoothly without disrupting the native layout */
+.pinned-tabs-container-separator svg.separator-line-svg {
+    width: 100% !important; /* Preserves native stretch behavior */
+    height: 1px !important;
+    min-height: 1.5px !important;
+    display: block !important;
+    overflow: visible !important; /* Allows wave amplitude to exceed bounds */
+    transition: width 0.15s ease-in-out !important;
+    min-width: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Base stroke properties and critical vector-effect */
+.pinned-tabs-container-separator svg.separator-line-svg path.separator-path-segment {
+    stroke: light-dark(rgba(1, 1, 1, 0.15), rgba(255, 255, 255, 0.2)) !important; 
+    stroke-width: 1px !important;
+    vector-effect: non-scaling-stroke !important; /* Prevents stretching artifacts */
+    fill: none !important;
+    transition: stroke 0.15s ease-in-out !important;
+}
+
+/* Optional hover interaction for the wave color */
+.pinned-tabs-container-separator:hover svg.separator-line-svg path.separator-path-segment {
+    stroke: light-dark(rgba(1, 1, 1, 0.3), rgba(255, 255, 255, 0.4)) !important;
+}
+
+/* =========================================================
+   AI-Tidy-Tabs: Visual Layout Displacement
+   Goal: [Cat Icon] -> [Horizontal Line] -> [Clear Button]
+   ========================================================= */
+
+/* 1. Anchor and Pad the Container */
+.pinned-tabs-container-separator {
+    position: relative !important;
+    /* Safely push the line inward so it doesn't overlap the cat.
+       Because the SVG has width: 100%, it will naturally shrink to fit the remaining space without breaking its bounding box! */
+    padding-left: 36px !important; 
+}
+
+/* 2. Displace the Cat Icon */
+.pinned-tabs-container-separator #ai-folder-sorter-btn {
+    position: absolute !important;
+    left: 4px !important;
+    /* Reset its old margins and use top/bottom: 0 with margin: auto to safely vertical-center it without breaking its native hover transforms */
+    margin: auto 0 !important; 
+    top: 0 !important;
+    bottom: 0 !important;
 }
