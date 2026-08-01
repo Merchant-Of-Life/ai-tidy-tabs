@@ -1,27 +1,12 @@
 // modules/browser-hooks.mjs
-// Tab context menu — "Always sort [host] into..."
-//
-// Adds a submenu to the tab right-click context menu. When the user
-// right-clicks a tab, they see:
-//
-//   Always sort github.com into...  ▶
-//       💻 Dev              ✓
-//       🛒 Shopping
-//       ─────────────
-//       ✨ New folder...
-//       🗑️ Remove rule
-
 import { log } from "./config.mjs";
 import { getExistingGroupNames } from "./tabs.mjs";
 import { readRules, addRule, removeRule, findRuleForUrl } from "./rules.mjs";
 import { showNotification } from "./notify.mjs";
+import { StateManager } from "./unload.mjs";
 
 let _contextMenuTab = null;
 
-/**
- * Set up the tab context menu. Called once during init.
- * Uses the native #tabContextMenu element.
- */
 export function setupTabContextMenu() {
   const tabMenu = document.getElementById("tabContextMenu");
   if (!tabMenu) {
@@ -29,8 +14,8 @@ export function setupTabContextMenu() {
     return false;
   }
 
-  if (tabMenu._aiSorterMenuInstalled) return true;
-  tabMenu._aiSorterMenuInstalled = true;
+  if (StateManager.get("contextMenuInstalled")) return true;
+  StateManager.set("contextMenuInstalled", true);
 
   const menuItem = document.createXULElement("menu");
   menuItem.id = "context_aiFolderSorter_addRule";
@@ -46,7 +31,6 @@ export function setupTabContextMenu() {
     populateAddRuleSubmenu(submenu);
   });
 
-  // Insert after "Move to Group" if it exists, else at end.
   const moveToGroup = document.getElementById("context_moveTabToGroup");
   if (moveToGroup && moveToGroup.parentNode) {
     moveToGroup.parentNode.insertBefore(menuItem, moveToGroup.nextSibling);
@@ -54,16 +38,16 @@ export function setupTabContextMenu() {
     tabMenu.appendChild(menuItem);
   }
 
-  // Track which tab was right-clicked.
-  tabMenu.addEventListener("popupshowing", () => {
+  const tracker = () => {
     _contextMenuTab = gBrowser?.selectedTab || null;
-  });
+  };
+  tabMenu.addEventListener("popupshowing", tracker);
+  StateManager.set("contextMenuTracker", tracker);
 
   log.debug("Context menu item added to tabContextMenu");
   return true;
 }
 
-/** Populate the submenu with current folders + tab groups. */
 function populateAddRuleSubmenu(submenu) {
   while (submenu.firstChild) submenu.removeChild(submenu.firstChild);
 
@@ -88,7 +72,6 @@ function populateAddRuleSubmenu(submenu) {
   const currentRule = findRuleForUrl(url);
   const existingGroups = getExistingGroupNames();
 
-  // Collect candidate folder names: existing tab groups + rule folders.
   const folderSet = new Set(existingGroups);
   for (const r of readRules()) folderSet.add(r.folder);
   const folders = Array.from(folderSet).sort((a, b) => a.localeCompare(b));
@@ -111,7 +94,6 @@ function populateAddRuleSubmenu(submenu) {
     submenu.appendChild(sep);
   }
 
-  // "New folder..." item
   const newFolderItem = document.createXULElement("menuitem");
   newFolderItem.setAttribute("label", "✨ New folder...");
   newFolderItem.addEventListener("command", () => {
@@ -129,7 +111,6 @@ function populateAddRuleSubmenu(submenu) {
   });
   submenu.appendChild(newFolderItem);
 
-  // "Remove rule" item (only if a rule exists)
   if (currentRule) {
     const removeItem = document.createXULElement("menuitem");
     removeItem.setAttribute(

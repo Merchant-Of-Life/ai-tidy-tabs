@@ -3,33 +3,7 @@
 
 import { CONFIG, log } from "./config.mjs";
 
-// Cached DOM lookups for the toolbar button injection points.
-// Invalidate on workspace changes (the active workspace's separator changes).
-export const domCache = {
-  separators: null,
-  commandSet: null,
 
-  getSeparators() {
-    if (!this.separators || !this.separators.length) {
-      this.separators = document.querySelectorAll(
-        ".pinned-tabs-container-separator"
-      );
-    }
-    return this.separators;
-  },
-
-  getCommandSet() {
-    if (!this.commandSet) {
-      this.commandSet = document.querySelector("commandset#zenCommandSet");
-    }
-    return this.commandSet;
-  },
-
-  invalidate() {
-    this.separators = null;
-    this.commandSet = null;
-  },
-};
 
 /**
  * Collect all sortable tabs from gBrowser.

@@ -16,11 +16,11 @@ export const CONFIG = {
 
   // Gemini
   get GEMINI_API_KEY() {
-    return Services.prefs.getStringPref("zen.ai-folder-sorter.api_key", "");
+    return Services.prefs.getStringPref("zen.ai-folder-sorter.gemini_api_key", "");
   },
   get GEMINI_MODEL() {
     return Services.prefs.getStringPref(
-      "zen.ai-folder-sorter.model",
+      "zen.ai-folder-sorter.gemini_model",
       "gemini-2.5-flash"
     );
   },
