@@ -1,74 +1,22 @@
 <div align="center">
 
-# 🧹🧠 AI Tidy Tabs
-
-**An intelligent, AI-powered tab organization mod for Zen Browser.**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform: Zen Browser](https://img.shields.io/badge/Browser-Zen-black?logo=firefox&logoColor=white)](https://zen-browser.app/)
-[![Mod Loader: Sine](https://img.shields.io/badge/Powered%20by-Sine-blueviolet)](https://github.com/CosmoCreeper/Sine)
-[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-success)](#)
-
-*Automatically organize, group, and clean up messy tabs using the power of AI (Gemini, Ollama, OpenAI) natively integrated into your browser's UI.*
-
-[Features](#-features) • [Installation](#-installation) • [Configuration](#-configuration) • [How it Works](#-how-it-works)
-
----
-
-*(Screenshot placeholder - Add a GIF or image of the Wand button in action here)*
-
+# 🧠 AI Tidy Tabs
+[![Browser: Zen](https://img.shields.io/badge/Browser-Zen-ff69b4.svg?style=flat-square&logo=firefox-browser)](https://zen-browser.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Sine Mod](https://img.shields.io/badge/Made_for-Sine-blueviolet?style=flat-square)](https://github.com/CosmoCreeper/Sine)
 </div>
-
-## 🌟 Features
-
-* **🪄 Native UI Integration:** Adds a beautiful "Magic Wand" button directly to your Zen Browser sidebar/tab strip.
-* **🧠 Smart AI Grouping:** Analyzes your open tabs and categorizes them into logical, beautifully named workspaces/folders.
-* **⚡ Provider Agnostic:** Use cloud AI like **Gemini** or **OpenAI**, or run it 100% locally and privately using **Ollama**.
-* **⚙️ Custom Domain Rules:** Set strict overrides (e.g., all `github.com` tabs always go to "Development") bypassing the AI for speed.
-* **🖱️ Context Menu Hooks:** Right-click any tab to quickly add its domain to your custom rules list.
-* **🧩 Modular Architecture:** Built exclusively for the [Sine Mod Loader](https://github.com/CosmoCreeper/Sine) using ES Modules.
-
-  
 ---
-
-## ⚙️ Configuration
-
-You can configure the AI provider directly from the Sine Mod settings UI!
-
-1. Open Zen Settings -> **Mods**.
-2. Click the ⚙️ **Settings icon** next to **AI Folder Sorter**.
-3. **Choose your Provider**:
-   * **Gemini (Recommended):** Enter your free Google Gemini API key.
-   * **Ollama (Local/Private):** Ensure Ollama is running locally on port `11434`.
-   * **Custom / OpenAI:** Enter your custom endpoint URL and Bearer token.
-
----
-
-## 📁 Repository Structure
-
-```text
-ai-tidy-tabs/
-├── ai-folder-sorter.uc.mjs  # Main entry script for the Sine Bootloader
-├── theme.json               # Sine Mod manifest and metadata
-├── preferences.json         # Settings UI schema for Zen Settings
-├── userChrome.css           # Visual styling for the Wand button and UI
-└── modules/                 # Core ES Modules logic
-    ├── ai.mjs               # API requests & prompt engineering
-    ├── browser-hooks.mjs    # Right-click context menus
-    ├── browser-ui.mjs       # UI injection & workspace listeners
-    ├── click-handler.mjs    # The main sorting pipeline
-    ├── config.mjs           # Constants and logging
-    ├── groups.mjs           # Folder creation and tab moving
-    ├── notify.mjs           # Status toasts and error messages
-    └── rules.mjs            # Hardcoded domain bypassing logic
-```
-
-## 🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/blood0jade-bot/ai-tidy-tabs/issues).
-
-## 📝 License
-Distributed under the **MIT License**. See `LICENSE` for more information.
+## 📸 Preview
 
 <div align="center">
-  <sub>Built with ❤️ for the Zen Browser community.</sub>
-</div>
+  <img width="183" height="935" alt="screenshot-2026-08-01_20-35-39_125452" src="https://github.com/user-attachments/assets/839a38e1-48c3-46a8-8561-91d5e8ac2edf" />
+  
+ AI Tidy Tabs Interface running in Zen Browser
+
+## 🛠️ Getting Started
+
+Follow these instructions to get a copy of the extension running on your local machine.
+
+### Prerequisites
+
+*   A compatible modern browser (Zen Browser, Firefox, or Chromium-based alternatives).
