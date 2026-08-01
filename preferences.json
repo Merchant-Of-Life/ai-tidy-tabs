@@ -1,8 +1,5 @@
 [
-  {
-    "type": "separator",
-    "label": "AI Provider"
-  },
+  { "type": "separator", "label": "AI Provider" },
   {
     "type": "dropdown",
     "label": "AI Provider — choose which AI service to use for categorizing tabs",
@@ -14,12 +11,35 @@
       { "label": "Ollama", "value": "ollama" }
     ]
   },
+  { "type": "separator", "label": "General" },
+  {
+    "type": "checkbox",
+    "label": "Enable AI Emojis — prepend emojis to new folder names",
+    "property": "zen.ai-folder-sorter.enable_icons",
+    "defaultValue": true
+  },
+  { "type": "separator", "label": "Gemini" },
   {
     "type": "string",
-    "label": "API Key — your Groq (gsk_...) or Gemini (AIza...) key. Leave empty for local Ollama.",
+    "label": "Gemini API Key",
+    "property": "zen.ai-folder-sorter.gemini_api_key",
+    "defaultValue": "",
+    "placeholder": "AIza..."
+  },
+  {
+    "type": "string",
+    "label": "Gemini Model",
+    "property": "zen.ai-folder-sorter.gemini_model",
+    "defaultValue": "gemini-2.5-flash",
+    "placeholder": "gemini-2.5-flash"
+  },
+  { "type": "separator", "label": "Custom / OpenAI-Compatible (Groq, OpenAI, LM Studio, vLLM...)" },
+  {
+    "type": "string",
+    "label": "API Key — your Groq (gsk_...) or OpenAI key",
     "property": "zen.ai-folder-sorter.api_key",
     "defaultValue": "",
-    "placeholder": "gsk_... or AIza..."
+    "placeholder": "gsk_..."
   },
   {
     "type": "string",
@@ -35,20 +55,7 @@
     "defaultValue": "https://api.groq.com/openai/v1/chat/completions",
     "placeholder": "https://api.groq.com/openai/v1/chat/completions"
   },
-  {
-    "type": "separator",
-    "label": "General"
-  },
-  {
-    "type": "checkbox",
-    "label": "Enable AI Emojis — prepend emojis to new folder names",
-    "property": "zen.ai-folder-sorter.enable_icons",
-    "defaultValue": true
-  },
-  {
-    "type": "separator",
-    "label": "Ollama (Local)"
-  },
+  { "type": "separator", "label": "Ollama (Local)" },
   {
     "type": "string",
     "label": "Ollama Endpoint — your local Ollama server URL",

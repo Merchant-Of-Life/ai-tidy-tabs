@@ -73,10 +73,9 @@ test("config.mjs exports CONFIG, LOG, BUILD_VERSION, log", () => {
   assert.ok(src.includes("export const log"), "exports log");
 });
 
-test("tabs.mjs exports extractTabData, domCache, getExistingGroupNames", () => {
+test("tabs.mjs exports extractTabData, getExistingGroupNames", () => {
   const src = fs.readFileSync(path.join(ROOT, "modules/tabs.mjs"), "utf8");
   assert.ok(src.includes("export function extractTabData"), "exports extractTabData");
-  assert.ok(src.includes("export const domCache"), "exports domCache");
   assert.ok(src.includes("export function getExistingGroupNames"), "exports getExistingGroupNames");
 });
 
@@ -87,11 +86,33 @@ test("rules.mjs exports readRules, saveRules, addRule, removeRule, findRuleForUr
   }
 });
 
-test("ai.mjs exports getSystemPrompt, normalizeFolderName, requestAICategorization", () => {
+test("ai.mjs exports normalizeFolderName, requestAICategorization", () => {
   const src = fs.readFileSync(path.join(ROOT, "modules/ai.mjs"), "utf8");
-  assert.ok(src.includes("export function getSystemPrompt"), "exports getSystemPrompt");
   assert.ok(src.includes("export function normalizeFolderName"), "exports normalizeFolderName");
   assert.ok(src.includes("export async function requestAICategorization"), "exports requestAICategorization");
+});
+
+test("modules/providers/ exists and none of its 4 files are empty", () => {
+  const providersDir = path.join(ROOT, "modules/providers");
+  assert.ok(fs.existsSync(providersDir), "modules/providers/ directory exists");
+  for (const name of ["base.mjs", "gemini.mjs", "ollama.mjs", "custom.mjs"]) {
+    const filePath = path.join(providersDir, name);
+    assert.ok(fs.existsSync(filePath), `modules/providers/${name} exists`);
+    assert.ok(fs.statSync(filePath).size > 0, `modules/providers/${name} is not empty`);
+  }
+});
+
+test("providers/base.mjs exports getSystemPrompt and AIProvider", () => {
+  const src = fs.readFileSync(path.join(ROOT, "modules/providers/base.mjs"), "utf8");
+  assert.ok(src.includes("export function getSystemPrompt"), "exports getSystemPrompt");
+  assert.ok(src.includes("export class AIProvider"), "exports AIProvider");
+});
+
+test("gemini.mjs and custom.mjs export their Provider classes", () => {
+  const geminiSrc = fs.readFileSync(path.join(ROOT, "modules/providers/gemini.mjs"), "utf8");
+  const customSrc = fs.readFileSync(path.join(ROOT, "modules/providers/custom.mjs"), "utf8");
+  assert.ok(geminiSrc.includes("export class GeminiProvider"), "gemini.mjs exports GeminiProvider");
+  assert.ok(customSrc.includes("export class CustomProvider"), "custom.mjs exports CustomProvider");
 });
 
 test("groups.mjs exports detectStrategy, createFoldersAndMoveTabs", () => {
@@ -142,7 +163,7 @@ test("Entry point is under 150 lines", () => {
 test("theme.json is valid JSON with correct structure", () => {
   const theme = JSON.parse(fs.readFileSync(path.join(ROOT, "theme.json"), "utf8"));
   assert.strictEqual(theme.id, "ai-folder-sorter");
-  assert.strictEqual(theme.version, "1.5.0");
+  assert.strictEqual(theme.version, "1.0.0");
   assert.ok(theme.scripts["ai-folder-sorter.uc.mjs"], "references .uc.mjs");
   assert.ok(!theme.scripts["ai-folder-sorter.uc.js"], "does NOT reference .uc.js");
   assert.strictEqual(theme.preferences, "preferences.json");
@@ -152,14 +173,14 @@ test("theme.json is valid JSON with correct structure", () => {
 
 // ── Version consistency ─────────────────────────────────────────
 
-test("Version is 1.5.0 across all files", () => {
+test("Version is 1.0.0 across all files", () => {
   const entrySrc = fs.readFileSync(path.join(ROOT, "ai-folder-sorter.uc.mjs"), "utf8");
   const configSrc = fs.readFileSync(path.join(ROOT, "modules/config.mjs"), "utf8");
   const theme = JSON.parse(fs.readFileSync(path.join(ROOT, "theme.json"), "utf8"));
 
-  assert.ok(entrySrc.includes("@version        1.5.0"), "entry point version header");
-  assert.ok(configSrc.includes('BUILD_VERSION = "1.5.0"'), "config BUILD_VERSION");
-  assert.strictEqual(theme.version, "1.5.0", "theme.json version");
+  assert.ok(entrySrc.includes("@version        1.0.0"), "entry point version header");
+  assert.ok(configSrc.includes('BUILD_VERSION = "1.0.0"'), "config BUILD_VERSION");
+  assert.strictEqual(theme.version, "1.0.0", "theme.json version");
 });
 
 // ── Syntax validation ───────────────────────────────────────────
@@ -177,6 +198,11 @@ test("All .mjs files pass Node syntax check", () => {
     "modules/browser-ui.mjs",
     "modules/browser-hooks.mjs",
     "modules/click-handler.mjs",
+    "modules/unload.mjs",
+    "modules/providers/base.mjs",
+    "modules/providers/gemini.mjs",
+    "modules/providers/ollama.mjs",
+    "modules/providers/custom.mjs",
   ];
 
   for (const f of files) {

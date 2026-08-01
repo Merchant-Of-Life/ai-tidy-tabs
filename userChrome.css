@@ -1,94 +1,41 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   AI Folder Sorter — Sidebar Button Styles (v1.3.0)
-
-   [v1.3.0] Completely rewritten to mirror the Zen-Tab-Wand approach:
-   - Button is ALWAYS visible (no more hover gate that hid it forever)
-   - Wand wiggle animation on click
-   - Pulse animation while AI is sorting
-   - Inherits currentColor from the toolbar theme
-   - Positioned next to Zen's native "close unpinned tabs" button
-
-   The button lives inside .pinned-tabs-container-separator (or, as a
-   fallback, inside #tabbrowser-arrowscrollbox-periphery). Either way the
-   same CSS applies — we target by ID, not by parent.
+   AI Folder Sorter — Sidebar Button Styles (Phase 3 UI Polish)
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* ── Click wiggle animation ──────────────────────────────────────────── */
-@keyframes ai-wand-wiggle {
-  0%   { transform: rotate(0deg); }
-  15%  { transform: rotate(-18deg); }
-  30%  { transform: rotate(20deg); }
-  45%  { transform: rotate(-14deg); }
-  60%  { transform: rotate(10deg); }
-  80%  { transform: rotate(-4deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* ── Sorting pulse animation (shown while AI is working) ─────────────── */
-@keyframes ai-sorting-pulse {
-  0%   { opacity: 1;    transform: scale(1); }
-  50%  { opacity: 0.55; transform: scale(0.92); }
-  100% { opacity: 1;    transform: scale(1); }
-}
-
-/* ── Main button styles ────────────────────────────────────────────────
-   The button is ALWAYS visible. The previous v1.2.0 styles set
-   `opacity: 0; visibility: collapse;` and only revealed the button on
-   separator hover. That was the #1 reason users reported "no icon to
-   click" — they didn't know to hover the separator, and even when they
-   did, the hover state was unreliable on touchpads.
-*/
 #ai-folder-sorter-btn {
-  /* ── Size & layout ──────────────────────────────────────────────────
-     Match the dimensions of Zen's native sidebar action buttons
-     (the "close unpinned tabs" pencil-shaped button next to us). */
   appearance: none !important;
   -moz-context-properties: fill, fill-opacity !important;
   fill: currentColor !important;
-
-  /* Visible by default — no more hover gate */
   opacity: 0.85 !important;
   visibility: visible !important;
-
-  /* Compact sizing to fit in the separator row */
-  min-width: 20px !important;
-  min-height: 20px !important;
-  width: 20px !important;
-  height: 20px !important;
-  padding: 2px !important;
-  margin: 0 2px !important;
-
-  /* Cursor & pointer events */
+  
+  width: calc(2 * var(--toolbarbutton-inner-padding, 6px) + 16px) !important;
+  height: calc(2 * var(--toolbarbutton-inner-padding, 6px) + 16px) !important;
+  border-radius: var(--tab-border-radius, 8px) !important;
+  
+  margin: 0 2px 0 -30px !important;
   cursor: pointer !important;
   pointer-events: auto !important;
-
-  /* No border/background by default — Zen's native buttons are bare */
   border: none !important;
   background: transparent !important;
-
-  /* Flexbox alignment for the icon */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-
-  /* Smooth transitions for hover state */
-  transition: opacity 120ms ease, transform 120ms ease !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 
-/* ── Hover state — full opacity + slight scale ──────────────────────── */
 #ai-folder-sorter-btn:hover {
+  background-color: var(--button-hover-bgcolor) !important;
+  transform: translateY(-1px) scale(1.08) !important;
   opacity: 1 !important;
-  transform: scale(1.1) !important;
 }
 
-/* ── Active (pressed) state ─────────────────────────────────────────── */
 #ai-folder-sorter-btn:active:hover {
-  transform: scale(0.95) !important;
+  transform: scale(0.96) !important;
+  transition: transform 80ms ease !important;
 }
 
-/* ── The inline SVG icon ──────────────────────────────────────────────
-   We size the SVG itself, not the parent .toolbarbutton-box, so the
-   icon is always 14×14 regardless of the button's flex sizing. */
 #ai-folder-sorter-btn svg {
   width: 14px !important;
   height: 14px !important;
@@ -96,66 +43,73 @@
   stroke: currentColor !important;
   pointer-events: none !important;
   transform-origin: 22% 78% !important;
-  transition: transform 120ms ease !important;
+  transition: transform 150ms cubic-bezier(0.2, 0, 0, 1) !important;
 }
 
-/* Wiggle on click — applied by handleSortClick via the .sorting class */
-#ai-folder-sorter-btn.sorting svg {
-  animation: ai-wand-wiggle 550ms ease-in-out !important;
+#ai-folder-sorter-btn:hover svg {
+  transform: rotate(-4deg) !important;
 }
 
-/* After the wiggle finishes, switch to the sorting pulse (set by JS
-   when the AI fetch starts). */
-#ai-folder-sorter-btn[disabled="true"] svg {
-  animation: ai-sorting-pulse 1.2s ease-in-out infinite !important;
-}
-
-/* ── The hbox wrapper inside the button ─────────────────────────────── */
-#ai-folder-sorter-btn .toolbarbutton-box {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  pointer-events: none !important;
-}
-
-/* ── Disabled state — dim the button while sorting ──────────────────── */
-#ai-folder-sorter-btn[disabled="true"] {
+#ai-folder-sorter-btn.processing {
   pointer-events: none !important;
   opacity: 0.6 !important;
 }
 
-/* ── Hide when the sidebar is fully collapsed ─────────────────────────
-   We don't want the button taking up space when the user has collapsed
-   the entire sidebar — there's no room for it. */
-:root:not([zen-sidebar-expanded="true"]) #ai-folder-sorter-btn {
-  display: none !important;
+#ai-folder-sorter-btn:focus-visible {
+  outline: 2px solid var(--zen-primary-color) !important;
+  outline-offset: 2px !important;
 }
 
-/* ── Light theme tweaks ───────────────────────────────────────────────
-   In light themes the default currentColor is too dark against the
-   light separator background. Soften it slightly. */
-[lwt-toolbar="light"] #ai-folder-sorter-btn {
-  opacity: 0.7 !important;
-  color: rgba(0, 0, 0, 0.65) !important;
-}
-[lwt-toolbar="light"] #ai-folder-sorter-btn:hover {
-  color: rgba(0, 0, 0, 0.9) !important;
-  opacity: 1 !important;
+/* ── Tab Grouping Highlights ── */
+@keyframes ai-group-flash {
+  0%   { opacity: 0.35; box-shadow: 0 0 0 2px var(--zen-primary-color); }
+  100% { opacity: 0; box-shadow: 0 0 0 2px transparent; }
 }
 
-/* ── Dark theme tweaks ────────────────────────────────────────────────
-   In dark themes we want the icon to be clearly visible but not glaring. */
-[lwt-toolbar="dark"] #ai-folder-sorter-btn {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
-[lwt-toolbar="dark"] #ai-folder-sorter-btn:hover {
-  color: rgba(255, 255, 255, 0.95) !important;
+tab-group.ai-sorter-highlight { position: relative !important; }
+
+tab-group.ai-sorter-highlight::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: var(--zen-primary-color) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border-radius: var(--tab-border-radius, 8px) !important;
+  animation: ai-group-flash 600ms cubic-bezier(0.2, 0, 0, 1) forwards !important;
+  z-index: 10 !important;
 }
 
-/* ── Position inside the separator ────────────────────────────────────
-   The separator uses flexbox layout. Our button should sit at the
-   right edge, just before Zen's native "close unpinned tabs" button
-   (we handle the insertion order in JS via insertBefore). */
+/* ── Fallback button glassmorphism ── */
+.ai-sorter-fallback-btn {
+  background: var(--arrowpanel-background) !important;
+  border: 1px solid var(--zen-colors-border, rgba(0,0,0,0.1)) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+  color: var(--zen-primary-color, #8a5cf6) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* ── Toast Notifications ── */
+.ai-sorter-toast {
+  background: var(--arrowpanel-background) !important;
+  color: var(--arrowpanel-color) !important;
+  border: 1px solid var(--zen-colors-border, rgba(0,0,0,0.1)) !important;
+  border-radius: var(--tab-border-radius, 8px) !important;
+  padding: 12px 20px !important;
+  font-size: 13px !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+  backdrop-filter: blur(12px) !important;
+  max-width: 400px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.ai-sorter-toast.success { border-left: 4px solid var(--zen-primary-color) !important; }
+.ai-sorter-toast.warning { border-left: 4px solid #ff9800 !important; }
+.ai-sorter-toast.error   { border-left: 4px solid #f44336 !important; }
+
+/* ── Structural positioning ── */
 .pinned-tabs-container-separator {
   overflow: visible !important;
   display: flex !important;
@@ -163,31 +117,14 @@
   gap: 4px !important;
 }
 
-/* ── Fallback container styling (when injected into periphery) ────────
-   If the separator doesn't exist and we fall back to injecting into
-   #tabbrowser-arrowscrollbox-periphery, we need to make sure the
-   button doesn't break the periphery's layout. */
-#tabbrowser-arrowscrollbox-periphery #ai-folder-sorter-btn {
-  margin-inline-end: 4px !important;
+:root:not([zen-sidebar-expanded="true"]) #ai-folder-sorter-btn {
+  display: none !important;
 }
 
-/* ── Last-resort fallback (when injected into #tabbrowser-tabs) ───────
-   If we end up inside the tab strip itself, add a bit of margin so
-   the button doesn't overlap with the last tab. */
-#tabbrowser-tabs #ai-folder-sorter-btn {
-  margin-inline-start: 6px !important;
-  margin-inline-end: 4px !important;
-  flex-shrink: 0 !important;
-}
-
-/* ── Tooltip styling (optional polish) ────────────────────────────────
-   Firefox/XUL handles the tooltiptext attribute natively, so this is
-   just a style override for the default tooltip appearance. */
-tooltip[default] {
-  background: rgba(40, 40, 40, 0.95) !important;
-  color: #fff !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 4px !important;
-  padding: 4px 8px !important;
-  font-size: 12px !important;
+/* ── Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  #ai-folder-sorter-btn, tab-group, tab-group tab, #ai-folder-sorter-btn::before, #ai-folder-sorter-btn::after, #ai-folder-sorter-btn svg, tab-group.ai-sorter-highlight::before {
+    animation: none !important;
+    transition: none !important;
+  }
 }

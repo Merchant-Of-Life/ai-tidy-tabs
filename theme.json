@@ -16,7 +16,7 @@
         "chrome": "userChrome.css"
     },
     "preferences": "preferences.json",
-    "supportsUnload": false,
+    "supportsUnload": true,
     "readme": "https://raw.githubusercontent.com/blood0jade-bot/ai-tidy-tabs/main/README.md",
     "ai": "yes",
     "tags": [
