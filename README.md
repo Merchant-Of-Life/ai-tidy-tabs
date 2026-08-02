@@ -13,10 +13,6 @@
   
  AI Tidy Tabs Interface running in Zen Browser
 
-## 🛠️ Getting Started
-
-Follow these instructions to get a copy of the extension running on your local machine.
-
 ### Prerequisites
 
 *   A compatible modern browser (Zen Browser, Firefox, or Chromium-based alternatives).
