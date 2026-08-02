@@ -12,7 +12,3 @@
   <img width="183" height="935" alt="screenshot-2026-08-01_20-35-39_125452" src="https://github.com/user-attachments/assets/839a38e1-48c3-46a8-8561-91d5e8ac2edf" />
   
  AI Tidy Tabs Interface running in Zen Browser
-
-### Prerequisites
-
-*   A compatible modern browser (Zen Browser, Firefox, or Chromium-based alternatives).
